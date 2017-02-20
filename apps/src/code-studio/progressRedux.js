@@ -214,13 +214,14 @@ export const hasLockableStages = state => state.stages.some(stage => stage.locka
 
 export const hasGroups = state => Object.keys(categorizedLessons(state)).length > 1;
 
+// Extract the relevant portions of a particular lesson/stage from the store.
+// Note, that this does not include levels
 const lessonFromStage = stage => ({
   name: stage.name,
   id: stage.id
 });
 export const lessons = state => state.stages.map(lessonFromStage);
 
-// TODO - account for locked levels
 export const levelsByLesson = state => (
   state.stages.map(stage => (
     stage.levels.map(level => ({
