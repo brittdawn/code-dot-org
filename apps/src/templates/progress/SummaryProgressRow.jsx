@@ -48,20 +48,36 @@ export const styles = {
     marginRight: 5,
     fontSize: 12,
     color: color.cyan
+  },
+  unlockedIcon: {
+    color: color.orange
   }
 };
 
-const SummaryRow = React.createClass({
+const SummaryProgressRow = React.createClass({
   propTypes: {
     dark: PropTypes.bool.isRequired,
     lesson: lessonType.isRequired,
     lessonNumber: PropTypes.number.isRequired,
     levels: PropTypes.arrayOf(levelType).isRequired,
     hiddenForStudents: PropTypes.bool.isRequired,
+    lockable: PropTypes.bool.isRequired,
+    locked: PropTypes.bool.isRequired,
   },
 
   render() {
-    const { dark, lesson, lessonNumber, levels, hiddenForStudents } = this.props;
+    const {
+      dark,
+      lesson,
+      lessonNumber,
+      levels,
+      hiddenForStudents,
+      lockable,
+      locked
+    } = this.props;
+
+    // TODO - students cant click through locked levels
+
     return (
       <tr
         style={{
@@ -78,6 +94,15 @@ const SummaryRow = React.createClass({
                 style={styles.icon}
               />
             }
+            {lockable &&
+              <FontAwesome
+                icon={locked ? 'lock' : 'unlock'}
+                style={{
+                  ...styles.icon,
+                  ...(!locked && styles.unlockedIcon)
+                }}
+              />
+            }
             {`${lessonNumber}. ${lesson.name}`}
           </div>
         </td>
@@ -91,4 +116,4 @@ const SummaryRow = React.createClass({
     );
   }
 });
-export default SummaryRow;
+export default SummaryProgressRow;

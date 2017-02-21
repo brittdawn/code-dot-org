@@ -27,10 +27,13 @@ const styles = {
     borderWidth: 2,
     opacity: 0.6
   },
-  hiddenIcon: {
+  icon: {
     marginRight: 5,
     fontSize: 18,
     color: color.cyan
+  },
+  unlockedIcon: {
+    color: color.orange
   }
 };
 
@@ -40,6 +43,8 @@ const ProgressLesson = React.createClass({
     description: PropTypes.string,
     levels: PropTypes.arrayOf(levelType).isRequired,
     hiddenForStudents: PropTypes.bool.isRequired,
+    lockable: PropTypes.bool.isRequired,
+    locked: PropTypes.bool.isRequired
   },
 
   getInitialState() {
@@ -55,8 +60,11 @@ const ProgressLesson = React.createClass({
   },
 
   render() {
-    const { title, description, levels, hiddenForStudents } = this.props;
+    const { title, description, levels, hiddenForStudents, lockable, locked } = this.props;
     const icon = this.state.collapsed ? "caret-right" : "caret-down";
+
+    // TODO - students cant click through locked levels
+
     return (
       <div
         style={{
@@ -71,7 +79,16 @@ const ProgressLesson = React.createClass({
           {hiddenForStudents &&
             <FontAwesome
               icon="eye-slash"
-              style={styles.hiddenIcon}
+              style={styles.icon}
+            />
+          }
+          {lockable &&
+            <FontAwesome
+              icon={locked ? 'lock' : 'unlock'}
+              style={{
+                ...styles.icon,
+                ...(!locked && styles.unlockedIcon)
+              }}
             />
           }
           <FontAwesome icon={icon}/>
