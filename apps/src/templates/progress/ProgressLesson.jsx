@@ -21,7 +21,7 @@ const styles = {
   headingText: {
     marginLeft: 10
   },
-  hidden: {
+  lockedOrHidden: {
     background: color.white,
     borderStyle: 'dashed',
     borderWidth: 2,
@@ -63,13 +63,14 @@ const ProgressLesson = React.createClass({
     const { title, description, levels, hiddenForStudents, lockable, locked } = this.props;
     const icon = this.state.collapsed ? "caret-right" : "caret-down";
 
-    // TODO - students cant click through locked levels
+    // TODO - locked teacher view shouldnt have opacity
+    const lockedOrHidden = hiddenForStudents || (lockable && locked);
 
     return (
       <div
         style={{
           ...styles.main,
-          ...(hiddenForStudents && styles.hidden)
+          ...(lockedOrHidden && styles.lockedOrHidden)
         }}
       >
         <div
@@ -98,6 +99,7 @@ const ProgressLesson = React.createClass({
           <ProgressLessonContent
             description={description}
             levels={levels}
+            disabled={lockable && locked/*TODO: depends on viewAs*/}
           />
         }
       </div>

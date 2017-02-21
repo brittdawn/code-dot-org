@@ -81,6 +81,38 @@ export default storybook => {
             ]}
           />
         )
+      },
+      {
+        name:'disabled',
+        story: () => (
+          <ProgressLevelSet
+            start={4}
+            name="Writing Exercises"
+            levels={[
+              {
+                status: 'perfect',
+                url: '/foo/level1',
+              },
+              {
+                status: 'not_tried',
+                url: '/foo/level2',
+              },
+              {
+                status: 'not_tried',
+                url: '/foo/level3',
+              },
+              {
+                status: 'not_tried',
+                url: '/foo/level4',
+              },
+              {
+                status: 'not_tried',
+                url: '/foo/level5',
+              },
+            ]}
+            disabled={true}
+          />
+        )
       }
     ]);
 };

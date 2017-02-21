@@ -34,6 +34,7 @@ const levels = [
   },
 ];
 
+// TODO - stories for view as teacher vs student
 export default storybook => {
   storybook
     .storiesOf('ProgressLesson', module)
@@ -45,6 +46,8 @@ export default storybook => {
             title="Lesson 1: Bytes and File Sizes"
             levels={levels}
             hiddenForStudents={false}
+            lockable={false}
+            locked={false}
           />
         )
       },
@@ -55,6 +58,8 @@ export default storybook => {
             title="Lesson 1: Bytes and File Sizes"
             levels={levels}
             hiddenForStudents={true}
+            lockable={false}
+            locked={false}
           />
         )
       },

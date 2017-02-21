@@ -43,6 +43,7 @@ export default storybook => {
                 url: '/foo/bar',
               },
             ]}
+            disabled={false}
           />
         )
       },
@@ -55,6 +56,20 @@ export default storybook => {
               status: 'not_tried',
               url: '/foo/bar'
             })}
+            disabled={false}
+          />
+        )
+      },
+      {
+        name:'disabled set',
+        story: () => (
+          <ProgressBubbleSet
+            start={1}
+            levels={arrayOfItem(5, {
+              status: 'not_tried',
+              url: '/foo/bar'
+            })}
+            disabled={true}
           />
         )
       }

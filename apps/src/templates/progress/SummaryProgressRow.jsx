@@ -76,8 +76,6 @@ const SummaryProgressRow = React.createClass({
       locked
     } = this.props;
 
-    // TODO - students cant click through locked levels
-
     return (
       <tr
         style={{
@@ -111,6 +109,7 @@ const SummaryProgressRow = React.createClass({
           <ProgressBubbleSet
             start={1}
             levels={levels}
+            disabled={lockable && locked/*TODO: depends on viewAs*/}
           />
         </td>
       </tr>

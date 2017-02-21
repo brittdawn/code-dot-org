@@ -28,6 +28,8 @@ const styles = {
     marginTop: 5,
     marginBottom: 5,
     transition: 'background-color .2s ease-out, border-color .2s ease-out, color .2s ease-out',
+  },
+  enabled: {
     ':hover': {
       textDecoration: 'none',
       color: color.white,
@@ -40,24 +42,34 @@ const ProgressBubble = React.createClass({
   propTypes: {
     number: PropTypes.number.isRequired,
     status: PropTypes.oneOf(Object.keys(BUBBLE_COLORS)).isRequired,
-    url: PropTypes.string
+    url: PropTypes.string,
+    disabled: PropTypes.bool.isRequired
   },
 
   render() {
-    const { number, status, url } = this.props;
+    const { number, status, url, disabled } = this.props;
 
     const style = {
       ...styles.main,
+      ...(!disabled && styles.enabled),
       ...BUBBLE_COLORS[status]
     };
 
-    return (
-      <a href={url ? url + location.search : undefined}>
-        <div style={style}>
-          {number}
-        </div>
-      </a>
+    let href = '';
+    if (!disabled && url) {
+      href = url + location.search;
+    }
+
+    // Only wrap in an anchor if we need to
+    let bubble = (
+      <div style={style}>
+        {number}
+      </div>
     );
+    if (href) {
+      bubble = <a href={href}>{bubble}</a>;
+    }
+    return bubble;
   }
 });
 

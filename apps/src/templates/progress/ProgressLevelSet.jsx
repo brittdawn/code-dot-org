@@ -82,7 +82,8 @@ const ProgressLevelSet = React.createClass({
   propTypes: {
     start: PropTypes.number.isRequired,
     name: PropTypes.string,
-    levels: PropTypes.arrayOf(levelType).isRequired
+    levels: PropTypes.arrayOf(levelType).isRequired,
+    disabled: PropTypes.bool.isRequired
   },
 
   getIcon() {
@@ -106,7 +107,7 @@ const ProgressLevelSet = React.createClass({
   },
 
   render() {
-    const { name, levels, start } = this.props;
+    const { name, levels, start, disabled } = this.props;
 
     const multiLevelStep = levels.length > 1;
     const status = multiLevelStep ? 'multi_level' : levels[0].status;
@@ -154,6 +155,7 @@ const ProgressLevelSet = React.createClass({
                 <ProgressBubbleSet
                   start={start}
                   levels={levels}
+                  disabled={disabled}
                 />
               </td>
             </tr>
