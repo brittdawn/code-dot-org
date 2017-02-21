@@ -12,6 +12,7 @@ export const levelType = (
 export const lessonType = (
   PropTypes.shape({
     name: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired
+    id: PropTypes.number.isRequired,
+    lockable: PropTypes.bool.isRequired
   })
 );
