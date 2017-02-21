@@ -2,7 +2,7 @@ import { assert } from '../../../util/configuredChai';
 import _ from 'lodash';
 import React from 'react';
 import { shallow } from 'enzyme';
-import { SummaryProgressTable } from '@cdo/apps/templates/progress/SummaryProgressTable';
+import { UnconnectedSummaryProgressTable as SummaryProgressTable } from '@cdo/apps/templates/progress/SummaryProgressTable';
 import { LevelStatus } from '@cdo/apps/util/sharedConstants';
 import { ViewType } from '@cdo/apps/code-studio/stageLockRedux';
 import Immutable from 'immutable';
@@ -36,7 +36,9 @@ describe('SummaryProgressTable', () => {
         levelsByLesson={levelsByLesson}
         viewAs={ViewType.Student}
         sectionId={'11'}
-        hiddenStageMap={Immutable.fromJS({})}
+        hiddenStageState={Immutable.fromJS({
+          bySection: {}
+        })}
       />
     );
     const rows = wrapper.find('tbody').props().children;
@@ -53,9 +55,11 @@ describe('SummaryProgressTable', () => {
         levelsByLesson={levelsByLesson}
         viewAs={ViewType.Student}
         sectionId={'11'}
-        hiddenStageMap={Immutable.fromJS({
-          '11': {
-            '2': true
+        hiddenStageState={Immutable.fromJS({
+          bySection: {
+            '11': {
+              '2': true
+            }
           }
         })}
       />
@@ -75,9 +79,11 @@ describe('SummaryProgressTable', () => {
         levelsByLesson={levelsByLesson}
         viewAs={ViewType.Teacher}
         sectionId={'11'}
-        hiddenStageMap={Immutable.fromJS({
-          '11': {
-            '2': true
+        hiddenStageState={Immutable.fromJS({
+          bySection: {
+            '11': {
+              '2': true
+            }
           }
         })}
       />

@@ -214,8 +214,11 @@ export const hasLockableStages = state => state.stages.some(stage => stage.locka
 
 export const hasGroups = state => Object.keys(categorizedLessons(state)).length > 1;
 
-// Extract the relevant portions of a particular lesson/stage from the store.
-// Note, that this does not include levels
+/**
+ * Extract the relevant portions of a particular lesson/stage from the store.
+ * Note, that this does not include levels
+ * @returns {Lesson}
+ */
 const lessonFromStage = stage => ({
   name: stage.name,
   id: stage.id,
@@ -223,13 +226,20 @@ const lessonFromStage = stage => ({
 });
 export const lessons = state => state.stages.map(lessonFromStage);
 
+/**
+ * The level object passed down to use via the server (and stored in stage.stages.levels)
+ * contains more data than we need. This (a) filters to the parts our views care
+ * about and (b) determines current status based on the current state of
+ * state.levelProgress
+ */
 export const levelsByLesson = state => (
   state.stages.map(stage => (
     stage.levels.map(level => ({
       status: statusForLevel(level, state.levelProgress),
       url: level.url,
       name: level.name,
-      icon: level.icon
+      progression: level.progression,
+      icon: level.icon,
     }))
   ))
 );
@@ -301,8 +311,10 @@ export const categorizedLessons = state => {
 
 /**
  * Given a set of levels, groups them in sets of progressions, where each
- * progression is a set of adjacent levels sharing the same name (where that
- * "same" name might also just be undefined)
+ * progression is a set of adjacent levels sharing the same progression name
+ * Any given level's progression name is determined by first looking to see if
+ * the server provided us one as level.progression, otherwise we fall back to
+ * just level.name
  * @param {Level[]} levels
  * @returns {object[]} An array of progressions, where each consists of a name,
  *   the position of the progression in the input array, and the set of levels
@@ -312,18 +324,19 @@ export const progressionsFromLevels = levels => {
   const progressions = [];
   let currentProgression = {
     start: 0,
-    name: levels[0].name,
+    name: levels[0].progression || levels[0].name,
     levels: [levels[0]]
   };
   levels.slice(1).forEach((level, index) => {
-    if (level.name === currentProgression.name) {
+    const progressionName = level.progression || level.name;
+    if (progressionName === currentProgression.name) {
       currentProgression.levels.push(level);
     } else {
       progressions.push(currentProgression);
       currentProgression = {
         // + 1 because we sliced off the first element
         start: index + 1,
-        name: level.name,
+        name: level.progression || level.name,
         levels: [level]
       };
     }

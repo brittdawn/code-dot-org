@@ -103,6 +103,7 @@ const SummaryProgressRow = React.createClass({
                 }}
               />
             }
+
             {`${lessonNumber}. ${lesson.name}`}
           </div>
         </td>
