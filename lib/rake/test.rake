@@ -1,3 +1,4 @@
+# coding: utf-8
 # Run 'rake' or 'rake -P' to get a list of valid Rake commands.
 
 require 'cdo/chat_client'
@@ -77,8 +78,10 @@ namespace :test do
         RakeUtils.rake 'db:test:prepare'
         ENV['DISABLE_SPRING'] = '1'
         ENV['UNIT_TEST'] = '1'
+        ENV['CODECOV_FLAGS'] = 'dashboard'
         TestRunUtils.run_dashboard_tests
         ENV.delete 'UNIT_TEST'
+        ENV.delete 'CODECOV_FLAGS'
         RakeUtils.rake "seed:all"
         RakeUtils.start_service CDO.dashboard_unicorn_name
       end
